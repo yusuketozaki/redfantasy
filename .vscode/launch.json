@@ -11,12 +11,9 @@
             "mainClass": "Main",
             "args": "",
             "preLaunchTask": "Compile Java4",
-            "encoding": "UTF8",
+            "encoding": "UTF-8",
             "classPaths": [
-                "${workspaceRoot}\\bin"
-            ],
-            "sourcePaths": [
-                "${workspaceRoot}\\src"
+                "${workspaceFolder}\\bin"
             ]
         }
     ]

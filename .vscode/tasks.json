@@ -6,9 +6,9 @@
     },
     "tasks": [
         {
-            "taskName": "Compile Java4",
-            "type": "shell",
-            "command": "javac",
+            "label": "Compile Java4",
+            "type":"process",
+            "command": "C:/byod/java1.8_152/bin/javac.exe",
             "windows": {
                 "args": [
                     "-encoding",
@@ -20,7 +20,7 @@
                     "-cp",
                     "bin",
                     "-d",
-                    "${workspaceRoot}/bin",
+                    "${workspaceFolder}\\bin",
                     "-sourcepath",
                     "${fileDirname}",
                     "${file}",
@@ -35,7 +35,7 @@
                 "owner": "build",
                 "fileLocation": [
                     "relative",
-                    "${workspaceRoot}"
+                    "${workspaceFolder}"
                 ],
                 "pattern": {
                     "regexp": "^(.*):(\\d+):\\s+(警告|エラー):\\s+(.*)$",
