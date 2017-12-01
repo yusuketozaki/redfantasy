@@ -13,16 +13,26 @@ public class RedFantasy {
     int[] cpuMonsters = new int[5];
     int[] cpuMonstersPoint = new int[5];
 
-    int cpuHp = 20;
-    int playerHp = 20;
+    int cpuHp = 50;
+    int playerHp = 50;
 
     Random rnd = new Random();
 
+    // battle history
+    int[] playerHistory = new int[100];
+    int[] cpuHistory = new int[100];
+    
     public RedFantasy() {
         // init player/cpu monster array
         for (int i = 0; i < this.playerMonsters.length; i++) {
             this.playerMonsters[i] = -1;
             this.cpuMonsters[i] = -1;
+        }
+        this.playerHistory[0] = this.playerHp;
+        this.cpuHistory[0] = this.cpuHp;
+        for (int i = 0; i < this.playerHistory.length; i++) {
+            this.playerHistory[i] = -9999;
+            this.cpuHistory[i] = -9999;
         }
     }
 
@@ -48,21 +58,64 @@ public class RedFantasy {
         }
 
         System.out.println("--------------------");
-        System.out.print("Player Monsters:");
+        System.out.print("Player Monsters List:");
         for(int i = 0; i < this.playerMonsters.length; i++){
             if(this.playerMonsters[i] != -1){
                 System.out.print(this.monsters[this.playerMonsters[i]] + " ");
             }
         }
-        System.out.print("\nCPU Monsters:");
+        System.out.print("\nCPU Monsters List:");
         for(int i = 0; i < this.cpuMonsters.length; i++){
             if(this.cpuMonsters[i] != -1){
                 System.out.print(this.monsters[this.cpuMonsters[i]] + " ");
             }
         }
         System.out.println("\n--------------------");
-        System.out.print("Player Monster Point is ");
-        int p3 = 0;
+        System.out.println("Battle!");
+        int d1 = this.rnd.nextInt(6)+1; //1~6のサイコロを振る
+        int playerBonusPoint = 0;        
+        System.out.println("Player's Dice'：" + d1);
+        if(d1 == 1){
+            System.out.println("失敗！すべてのモンスターポイントが半分になる");
+            for(int i = 0; i < this.playerMonsters.length; i++){
+                if(this.playerMonsters[i] != -1){
+                    this.playerMonstersPoint[i] = this.playerMonstersPoint[i] / 2;
+                }
+            }
+        }else if(d1 == 6){
+            System.out.println("Critical！すべてのモンスターポイントが倍になる");
+            for(int i = 0; i < this.playerMonsters.length; i++){
+                if(this.playerMonsters[i] != -1){
+                    this.playerMonstersPoint[i] = this.playerMonstersPoint[i] * 2;
+                }
+            }
+        }else{
+            playerBonusPoint = d1;
+        }
+        int d2 = this.rnd.nextInt(6)+1; //1~6のサイコロを振る
+        int cpuBonusPoint = 0;
+        System.out.println("CPU's Dice'：" + d2);
+        if(d2 == 1){
+            System.out.println("失敗！すべてのモンスターポイントが半分になる");
+            for(int i = 0; i < this.cpuMonsters.length; i++){
+                if(this.cpuMonsters[i] != -1){
+                    this.cpuMonstersPoint[i] = this.cpuMonstersPoint[i] / 2;
+                }
+            }
+        }else if(d2 == 6){
+            System.out.println("Critical！すべてのモンスターポイントが倍になる");
+            for(int i = 0; i < this.cpuMonsters.length; i++){
+                if(this.cpuMonsters[i] != -1){
+                    this.cpuMonstersPoint[i] = this.cpuMonstersPoint[i] * 2;
+                }
+            }
+        }else{
+            cpuBonusPoint = d2;
+        }
+
+        System.out.println("--------------------");
+        System.out.print("Player Monster Pointの合計:");
+        int p3 = playerBonusPoint;
         for(int i = 0; i < this.playerMonsters.length; i++){
             if(this.playerMonsters[i] != -1){
                 p3 = p3 + this.playerMonstersPoint[i];
@@ -70,8 +123,8 @@ public class RedFantasy {
         }
         System.out.println(p3);
 
-        System.out.print("CPU Monster Point is ");
-        int p4 = 0;
+        System.out.print("CPU Monster Pointの合計:");
+        int p4 = cpuBonusPoint;
         for(int i = 0; i < this.cpuMonsters.length; i++){
             if(this.cpuMonsters[i] != -1){
                 p4 = p4 + this.cpuMonstersPoint[i];
@@ -79,21 +132,42 @@ public class RedFantasy {
         }
         System.out.println(p4);
         System.out.println("--------------------");
-        
+
         if(p3 > p4){
             System.out.println("Player Win!");
             this.cpuHp = this.cpuHp - (p3 - p4);
         }else if(p4 > p3){
             System.out.println("CPU Win!");
             this.playerHp = this.playerHp - (p4 - p3);
+        }else if(p3 == p4){
+            System.out.println("Draw!");
         }
 
         System.out.println("Player HP is " + this.playerHp);
         System.out.println("CPU HP is " + this.cpuHp);
         
         System.out.println("--------------------");
-        
+        // 対戦結果の記録
+        for(int i = 0;i < this.playerHistory.length; i++){
+            if(this.playerHistory[i] == -9999){
+                this.playerHistory[i] = this.playerHp;
+                break;
+            }
+        }
+        for(int i = 0;i < this.cpuHistory.length; i++){
+            if(this.cpuHistory[i] == -9999){
+                this.cpuHistory[i] = this.cpuHp;
+                break;
+            }
+        }
     }
+    public int[] getPlayerHistory(){
+        return this.playerHistory;
+    }
+    public int[] getCpuHistory(){
+        return this.cpuHistory;
+    }
+
     public int getPlayerHp(){
         return this.playerHp; 
     }
