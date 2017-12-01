@@ -91,33 +91,33 @@ public class RedFantasy {
 
         //player Attack, cpu Deffence
         for (int i = 0; i < this.playerMonsters.length; i++) {
-            if (this.playerMonsters[i] == -1)
-                continue;
-            else
-                System.out.print(this.monsters[this.playerMonsters[i]] + "'s Attack ");
-
-            int cpuDefSeed = (int) (Math.random() * this.cpuMonsters.length);
-            for (int j = cpuDefSeed; j < this.cpuMonsters.length + cpuDefSeed; j++) {
-                int cpuDef = j;
-                if (cpuDef >= this.cpuMonsters.length)
-                    cpuDef = cpuDef - this.cpuMonsters.length;
-                if (this.cpuMonsters[cpuDef] != -1) {
-                    if (this.cpuMonstersPoint[cpuDef] > this.playerMonstersPoint[i]) {
-                        this.cpuMonstersPoint[cpuDef] = this.cpuMonstersPoint[cpuDef] - this.playerMonstersPoint[i];
-                        System.out.println(this.monsters[this.cpuMonsters[cpuDef]] + "が防御した");
-                    } else {
-                        int damage = this.playerMonstersPoint[i] - this.cpuMonstersPoint[cpuDef];
-                        System.out.print(this.monsters[this.cpuMonsters[cpuDef]] + "は死んでしまった．");
-                        this.cpuMonsters[cpuDef] = -1;
-                        System.out.println("CPUに" + damage + "のダメージ");
-                        this.cpuPoint = this.cpuPoint - damage;
+            if (this.playerMonsters[i] != -1) {
+                if (Math.random() >= 0.5) {//randomな数値が0.5以上の場合はそのモンスターが攻撃する
+                    System.out.print(this.monsters[this.playerMonsters[i]] + "'s Attack ");
+                    for (int j = 0; j < this.cpuMonsters.length; j++) {
+                        int cpuDef = j;
+                        if (cpuDef >= this.cpuMonsters.length)
+                            cpuDef = cpuDef - this.cpuMonsters.length;
+                        if (this.cpuMonsters[cpuDef] != -1) {
+                            if (this.cpuMonstersPoint[cpuDef] > this.playerMonstersPoint[i]) {
+                                this.cpuMonstersPoint[cpuDef] = this.cpuMonstersPoint[cpuDef]
+                                        - this.playerMonstersPoint[i];
+                                System.out.println(this.monsters[this.cpuMonsters[cpuDef]] + "が防御した");
+                            } else {
+                                int damage = this.playerMonstersPoint[i] - this.cpuMonstersPoint[cpuDef];
+                                System.out.print(this.monsters[this.cpuMonsters[cpuDef]] + "は死んでしまった．");
+                                this.cpuMonsters[cpuDef] = -1;
+                                System.out.println("CPUに" + damage + "のダメージ");
+                                this.cpuPoint = this.cpuPoint - damage;
+                            }
+                            break;
+                        } else if (cpuDef >= this.cpuMonsters.length) {
+                            int damage = this.playerMonstersPoint[i];
+                            System.out.println("CPUに" + damage + "のダメージ");
+                            this.cpuPoint = this.cpuPoint - damage;
+                            break;
+                        }
                     }
-                    break;
-                } else if (cpuDef >= this.cpuMonsters.length) {
-                    int damage = this.playerMonstersPoint[i];
-                    System.out.println("CPUに" + damage + "のダメージ");
-                    this.cpuPoint = this.cpuPoint - damage;
-                    break;
                 }
             }
         }
