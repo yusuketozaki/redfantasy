@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) {
 
 		setMonsters();
-		rf.initDraw();
         int count=0;
 
         while (true) {

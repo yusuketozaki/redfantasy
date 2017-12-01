@@ -21,31 +21,6 @@ public class RedFantasy {
         }
     }
 
-    public void initDraw() {
-        //Init monster card draw
-        System.out.println(" 初期カードDraw! ");
-        for (int a = 0; a < 5; a++) {
-            int pHand = (int) (Math.random() * monsters.length);
-            for (int i = 0; i < this.playerMonsters.length; i++) {
-                if (this.playerMonsters[i] == -1) {
-                    this.playerMonsters[i] = pHand;
-                    this.playerMonstersPoint[i] = this.monstersPoint[pHand];
-                    break;
-                }
-            }
-
-            ////Draw cpu's monster card
-            int cHand = (int) (Math.random() * monsters.length);
-            for (int i = 0; i < this.cpuMonsters.length; i++) {
-                if (this.cpuMonsters[i] == -1) {
-                    this.cpuMonsters[i] = cHand;
-                    this.cpuMonstersPoint[i] = this.monstersPoint[cHand];
-                    break;
-                }
-            }
-        }
-    }
-
     public void startPhase() {
 
         //Draw player's monster card
