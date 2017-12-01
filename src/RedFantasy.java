@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /**
  * RedFantasy
  */
@@ -5,16 +7,19 @@ public class RedFantasy {
     String[] monsters = new String[22];
     int[] monstersPoint = new int[22];
 
-    int[] playerMonsters = new int[22];
-    int[] playerMonstersPoint = new int[22];
+    int[] playerMonsters = new int[5];
+    int[] playerMonstersPoint = new int[5];
 
-    int[] cpuMonsters = new int[22];
-    int[] cpuMonstersPoint = new int[22];
+    int[] cpuMonsters = new int[5];
+    int[] cpuMonstersPoint = new int[5];
 
-    int cpuPoint = 10;
-    int playerPoint = 10;
+    int cpuHp = 20;
+    int playerHp = 20;
+
+    Random rnd = new Random();
 
     public RedFantasy() {
+        // init player/cpu monster array
         for (int i = 0; i < this.playerMonsters.length; i++) {
             this.playerMonsters[i] = -1;
             this.cpuMonsters[i] = -1;
@@ -24,116 +29,58 @@ public class RedFantasy {
     public void startPhase() {
 
         //Draw player's monster card
-        int pHand = (int) (Math.random() * monsters.length);
-        for (int i = 0; i < this.playerMonsters.length; i++) {
-            if (this.playerMonsters[i] == -1) {
-                this.playerMonsters[i] = pHand;
-                this.playerMonstersPoint[i] = this.monstersPoint[pHand];
-                break;
-            }
+        // playerMonsters.length -3 ~ playerMonsters.length までのランダムなint型の数値をp1に代入する
+        int p1 = this.rnd.nextInt(this.playerMonsters.length - 2) + 3;
+        System.out.println("Player Draw " + p1 + " monsters");
+        for (int i = 0; i < p1; i++) {
+            int m = this.rnd.nextInt(this.monsters.length);
+            this.playerMonsters[i] = m;
+            this.playerMonstersPoint[i] = this.monstersPoint[m];
         }
 
         ////Draw cpu's monster card
-        int cHand = (int) (Math.random() * monsters.length);
-        for (int i = 0; i < this.cpuMonsters.length; i++) {
-            if (this.cpuMonsters[i] == -1) {
-                this.cpuMonsters[i] = cHand;
-                this.cpuMonstersPoint[i] = this.monstersPoint[cHand];
-                break;
-            }
+        int p2 = this.rnd.nextInt(this.cpuMonsters.length -2 ) + 3;
+        System.out.println("CPU Draw " + p2 + " monsters");
+        for (int i = 0; i < p2; i++) {
+            int m = this.rnd.nextInt(this.monsters.length);
+            this.cpuMonsters[i] = m;
+            this.cpuMonstersPoint[i] = this.monstersPoint[m];
         }
 
-        System.out.println("Player Draw :" + this.monsters[pHand]);
-        System.out.print("Player's monsters:");
-
-        //List current player's monster card
-        for (int i = 0; i < this.playerMonsters.length; i++) {
-            if (this.playerMonsters[i] != -1) {
+        System.out.println("--------------------");
+        System.out.print("Player Monsters:");
+        for(int i = 0; i < this.playerMonsters.length; i++){
+            if(this.playerMonsters[i] != -1){
                 System.out.print(this.monsters[this.playerMonsters[i]] + " ");
             }
         }
-
-        //List current cpu's monster card
-        System.out.println("\nCPU Draw :" + this.monsters[cHand]);
-        System.out.print("CPU's monsters:");
-        for (int i = 0; i < this.cpuMonsters.length; i++) {
-            if (this.cpuMonsters[i] != -1) {
+        System.out.print("\nCPU Monsters:");
+        for(int i = 0; i < this.cpuMonsters.length; i++){
+            if(this.cpuMonsters[i] != -1){
                 System.out.print(this.monsters[this.cpuMonsters[i]] + " ");
             }
         }
-
-        System.out.println("\nPlayer Turn");
-
-        //player Attack, cpu Deffence
-        for (int i = 0; i < this.playerMonsters.length; i++) {
-            if (this.playerMonsters[i] != -1) {
-                if (Math.random() >= 0.5) {//randomな数値が0.5以上の場合はそのモンスターが攻撃する
-                    System.out.print(this.monsters[this.playerMonsters[i]] + "'s Attack ");
-                    for (int j = 0; j < this.cpuMonsters.length; j++) {
-                        int cpuDef = j;
-                        if (cpuDef >= this.cpuMonsters.length)
-                            cpuDef = cpuDef - this.cpuMonsters.length;
-                        if (this.cpuMonsters[cpuDef] != -1) {
-                            if (this.cpuMonstersPoint[cpuDef] > this.playerMonstersPoint[i]) {
-                                this.cpuMonstersPoint[cpuDef] = this.cpuMonstersPoint[cpuDef]
-                                        - this.playerMonstersPoint[i];
-                                System.out.println(this.monsters[this.cpuMonsters[cpuDef]] + "が防御した");
-                            } else {
-                                int damage = this.playerMonstersPoint[i] - this.cpuMonstersPoint[cpuDef];
-                                System.out.print(this.monsters[this.cpuMonsters[cpuDef]] + "は死んでしまった．");
-                                this.cpuMonsters[cpuDef] = -1;
-                                System.out.println("CPUに" + damage + "のダメージ");
-                                this.cpuPoint = this.cpuPoint - damage;
-                            }
-                            break;
-                        } else if (cpuDef >= this.cpuMonsters.length) {
-                            int damage = this.playerMonstersPoint[i];
-                            System.out.println("CPUに" + damage + "のダメージ");
-                            this.cpuPoint = this.cpuPoint - damage;
-                            break;
-                        }
-                    }
-                }
+        System.out.println("\n--------------------");
+        System.out.print("Player Monster Point is ");
+        int p3 = 0;
+        for(int i = 0; i < this.playerMonsters.length; i++){
+            if(this.playerMonsters[i] != -1){
+                p3 = p3 + this.playerMonstersPoint[i];
             }
         }
-        System.out.println("\nCPU Point is " + this.cpuPoint);
+        System.out.println(p3);
 
-        System.out.println("\nCPU Turn");
-        //cpu Atk・Player Def
-        for (int i = 0; i < this.cpuMonsters.length; i++) {
-            if (this.cpuMonsters[i] == -1)
-                continue;
-            else
-                System.out.print(this.monsters[this.cpuMonsters[i]] + "'s Attack ");
-
-            int playerDefSeed = (int) (Math.random() * this.playerMonsters.length);
-            for (int j = playerDefSeed; j < this.playerMonsters.length + playerDefSeed; j++) {
-                int def = j;
-                if (def >= this.playerMonsters.length)
-                    def = def - this.playerMonsters.length;
-                if (this.playerMonsters[def] != -1) {
-                    if (this.playerMonstersPoint[def] > this.cpuMonstersPoint[i]) {
-                        this.playerMonstersPoint[def] = this.playerMonstersPoint[def] - this.cpuMonstersPoint[i];
-                        System.out.println(this.monsters[this.playerMonsters[def]] + "が防御した");
-                    } else {
-                        int damage = this.cpuMonstersPoint[i] - this.playerMonstersPoint[def];
-                        System.out.print(this.monsters[this.playerMonsters[def]] + "は死んでしまった．");
-                        this.playerMonsters[def] = -1;
-                        System.out.println("Playerに" + damage + "のダメージ");
-                        this.playerPoint = this.playerPoint - damage;
-                    }
-                    break;
-                } else if (def >= this.playerMonsters.length) {
-                    int damage = this.cpuMonstersPoint[i];
-                    System.out.println("Playerに" + damage + "のダメージ");
-                    this.playerPoint = this.playerPoint - damage;
-                    break;
-                }
+        System.out.print("CPU Monster Point is ");
+        int p4 = 0;
+        for(int i = 0; i < this.cpuMonsters.length; i++){
+            if(this.cpuMonsters[i] != -1){
+                p4 = p4 + this.cpuMonstersPoint[i];
             }
         }
-        System.out.println("\nPlayer Point is " + this.playerPoint);
+        System.out.println(p4);
+        System.out.println("--------------------");
+        
 
-        //player,cpuのmonster point回復
 
     }
 
