@@ -80,8 +80,26 @@ public class RedFantasy {
         System.out.println(p4);
         System.out.println("--------------------");
         
+        if(p3 > p4){
+            System.out.println("Player Win!");
+            this.cpuHp = this.cpuHp - (p3 - p4);
+        }else if(p4 > p3){
+            System.out.println("CPU Win!");
+            this.playerHp = this.playerHp - (p4 - p3);
+        }
 
+        System.out.println("Player HP is " + this.playerHp);
+        System.out.println("CPU HP is " + this.cpuHp);
+        
+        System.out.println("--------------------");
+        
+    }
+    public int getPlayerHp(){
+        return this.playerHp; 
+    }
 
+    public int getCpuHp(){
+        return this.cpuHp;
     }
 
     public void setMonstersPoint(int[] tempMonstersPoint) {
