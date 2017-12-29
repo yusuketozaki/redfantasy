@@ -13,8 +13,10 @@ public class RedFantasy {
     int[] cpuMonsters = new int[5];
     int[] cpuMonstersPoint = new int[5];
 
-    int cpuHp = 50;
     int playerHp = 50;
+    int cpuHp = 50;
+    int playerBonusPoint = 0;        
+    int cpuBonusPoint = 0;
 
     Random rnd = new Random();
 
@@ -73,7 +75,6 @@ public class RedFantasy {
         System.out.println("\n--------------------");
         System.out.println("Battle!");
         int d1 = this.rnd.nextInt(6)+1; //1~6のサイコロを振る
-        int playerBonusPoint = 0;        
         System.out.println("Player's Dice'：" + d1);
         if(d1 == 1){
             System.out.println("失敗！すべてのモンスターポイントが半分になる");
@@ -90,10 +91,9 @@ public class RedFantasy {
                 }
             }
         }else{
-            playerBonusPoint = d1;
+            this.playerBonusPoint = d1;
         }
         int d2 = this.rnd.nextInt(6)+1; //1~6のサイコロを振る
-        int cpuBonusPoint = 0;
         System.out.println("CPU's Dice'：" + d2);
         if(d2 == 1){
             System.out.println("失敗！すべてのモンスターポイントが半分になる");
@@ -110,12 +110,12 @@ public class RedFantasy {
                 }
             }
         }else{
-            cpuBonusPoint = d2;
+            this.cpuBonusPoint = d2;
         }
 
         System.out.println("--------------------");
         System.out.print("Player Monster Pointの合計:");
-        int p3 = playerBonusPoint;
+        int p3 = this.playerBonusPoint;
         for(int i = 0; i < this.playerMonsters.length; i++){
             if(this.playerMonsters[i] != -1){
                 p3 = p3 + this.playerMonstersPoint[i];
@@ -124,7 +124,7 @@ public class RedFantasy {
         System.out.println(p3);
 
         System.out.print("CPU Monster Pointの合計:");
-        int p4 = cpuBonusPoint;
+        int p4 = this.cpuBonusPoint;
         for(int i = 0; i < this.cpuMonsters.length; i++){
             if(this.cpuMonsters[i] != -1){
                 p4 = p4 + this.cpuMonstersPoint[i];
